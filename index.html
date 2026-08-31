@@ -44,6 +44,7 @@
     overflow-x:hidden;
     word-break:keep-all;
     overflow-wrap:break-word;
+    text-wrap:pretty;
   }
 
   /* grain overlay */
@@ -267,29 +268,54 @@
     .about-grid{grid-template-columns:1fr;gap:40px}
   }
 
-  /* ---------- pixel runner (scroll-driven, full page) ---------- */
+  /* ---------- pixel runner + greeting bubble ---------- */
   .pixel-runner{
     position:fixed;
     right:clamp(6px,3vw,40px);
-    top:0;
+    bottom:20px;
     z-index:40;
     pointer-events:none;
-    display:none;
   }
   .pixel-sprite{
     --fw:88px;
     display:block;
     width:var(--fw);height:calc(var(--fw) * 1.79);
+    padding:0;border:0;
     background:url("assets/sprite-bje.png") 0 0 / auto 100% no-repeat;
     image-rendering:pixelated;
+    pointer-events:auto;
+    cursor:pointer;
   }
+  .pixel-sprite:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
   @media (max-width:860px){ .pixel-sprite{--fw:60px} }
   @media (max-width:460px){ .pixel-runner{right:4px} .pixel-sprite{--fw:48px} }
+
+  .pixel-bubble{
+    position:absolute;
+    right:calc(100% + 12px);
+    bottom:6px;
+    width:min(66vw,240px);
+    background:var(--bg-2);
+    border:1px solid var(--line-strong);
+    padding:14px 16px;
+    pointer-events:auto;
+    font-size:13px;
+    line-height:1.75;
+    color:var(--text);
+  }
+  .pixel-bubble p + p{margin-top:8px}
+  .pixel-bubble a{color:var(--accent);border-bottom:1px solid var(--line-strong)}
+  .pixel-bubble::after{
+    content:"";position:absolute;
+    right:-7px;bottom:14px;
+    border:6px solid transparent;
+    border-left-color:var(--line-strong);
+  }
 
   @supports (animation-timeline: scroll()){
     @media (prefers-reduced-motion: no-preference){
       .pixel-runner{
-        display:block;
+        bottom:auto;top:0;
         animation:bje-descend linear both;
         animation-timeline:scroll(root block);
       }
@@ -302,12 +328,7 @@
       }
     }
   }
-  @keyframes bje-descend{
-    0%{transform:translateY(2vh);opacity:0}
-    4%{opacity:1}
-    96%{opacity:1}
-    100%{transform:translateY(86vh);opacity:0}
-  }
+  @keyframes bje-descend{ from{transform:translateY(2vh)} to{transform:translateY(84vh)} }
   @keyframes bje-turn{to{background-position-x:calc(-16 * var(--fw))}}
 
   /* ---------- work ---------- */
@@ -545,17 +566,6 @@
   .copy-btn:hover{border-color:var(--text-dim);color:var(--text-dim)}
   .copy-btn.done{color:var(--accent);border-color:var(--accent)}
 
-  /* ---------- footer ---------- */
-  footer{
-    border-top:1px solid var(--line);
-    padding:36px 0;
-  }
-  footer .wrap{
-    display:flex;justify-content:space-between;align-items:center;
-    flex-wrap:wrap;gap:12px;
-    font-size:12.5px;color:var(--text-faint);
-    font-family:var(--mono);
-  }
 
   /* ---------- award modal (slide deck) ---------- */
   body.no-scroll{overflow:hidden}
@@ -746,7 +756,13 @@
 </header>
 
 <main id="top">
-  <div class="pixel-runner" aria-hidden="true"><span class="pixel-sprite"></span></div>
+  <div class="pixel-runner">
+    <button type="button" class="pixel-sprite" id="bjeChar" aria-label="배정은 인사말 보기" aria-expanded="false"></button>
+    <div class="pixel-bubble" id="bjeBubble" role="status" hidden>
+      <p>안녕하세요, 배정은입니다.</p>
+      <p>연락사항은 <a href="mailto:lovelyeun0914@gmail.com">lovelyeun0914@gmail.com</a> 으로 연락 부탁드립니다.</p>
+    </div>
+  </div>
 
   <!-- HERO -->
   <section class="hero">
@@ -1022,13 +1038,6 @@
     </div>
   </section>
 </main>
-
-<footer>
-  <div class="wrap">
-    <span>배정은 · 코드를 짜는 기획자</span>
-    <span>Portfolio 2026</span>
-  </div>
-</footer>
 
 <div class="award-modal" id="awardModal" role="dialog" aria-modal="true" aria-labelledby="awardModalTitle" aria-hidden="true">
   <div class="deck">
@@ -1394,6 +1403,26 @@
       document.body.removeChild(t); done();
     }
   });
+
+  // pixel character greeting bubble
+  var bjeChar = document.getElementById('bjeChar');
+  var bjeBubble = document.getElementById('bjeBubble');
+  if(bjeChar && bjeBubble){
+    var setBubble = function(open){
+      bjeBubble.hidden = !open;
+      bjeChar.setAttribute('aria-expanded', String(open));
+    };
+    bjeChar.addEventListener('click', function(e){
+      e.stopPropagation();
+      setBubble(bjeBubble.hidden);
+    });
+    document.addEventListener('click', function(e){
+      if(!bjeBubble.hidden && !bjeBubble.contains(e.target)) setBubble(false);
+    });
+    document.addEventListener('keydown', function(e){
+      if(e.key === 'Escape' && !bjeBubble.hidden){ setBubble(false); bjeChar.focus(); }
+    });
+  }
 </script>
 </body>
 </html>

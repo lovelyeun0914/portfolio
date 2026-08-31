@@ -21,9 +21,9 @@
     --text-faint:#6b6d67;
     --line:rgba(237,237,234,.12);
     --line-strong:rgba(237,237,234,.28);
-    --accent:#34d17a;
-    --accent-dim:#2aa863;
-    --accent-ink:#06210f;
+    --accent:#f2593a;
+    --accent-dim:#c2401f;
+    --accent-ink:#2a0a04;
     --maxw:1280px;
     --pad:clamp(20px,5vw,64px);
     --font:"Pretendard Variable",Pretendard,-apple-system,BlinkMacSystemFont,system-ui,"Apple SD Gothic Neo",sans-serif;
@@ -126,7 +126,7 @@
   .hero::before{
     content:"";
     position:absolute;inset:0;
-    background:radial-gradient(120% 90% at 12% 0%, rgba(52,209,122,.10), transparent 55%);
+    background:radial-gradient(120% 90% at 12% 0%, rgba(242,89,58,.12), transparent 55%);
     pointer-events:none;
   }
   .hero-grid{
@@ -170,7 +170,7 @@
     transition:transform .1s ease,background .18s ease,border-color .18s ease,color .18s ease;
   }
   .btn-primary{background:var(--accent);color:var(--accent-ink)}
-  .btn-primary:hover{background:#3ee38a}
+  .btn-primary:hover{background:#ff6f52}
   .btn-primary:active{transform:translateY(1px)}
   .btn-ghost{border:1px solid var(--line-strong);color:var(--text)}
   .btn-ghost:hover{border-color:var(--text)}
@@ -264,8 +264,7 @@
     .about-grid{grid-template-columns:1fr;gap:40px}
   }
 
-  /* ---------- pixel runner (scroll-driven traveller) ---------- */
-  #about{view-timeline:--about-track block}
+  /* ---------- pixel runner (scroll-driven, full page) ---------- */
   .pixel-runner{
     position:fixed;
     right:clamp(6px,3vw,40px);
@@ -284,26 +283,24 @@
   @media (max-width:860px){ .pixel-sprite{--fw:60px} }
   @media (max-width:460px){ .pixel-runner{right:4px} .pixel-sprite{--fw:48px} }
 
-  @supports (animation-timeline: view()){
+  @supports (animation-timeline: scroll()){
     @media (prefers-reduced-motion: no-preference){
       .pixel-runner{
         display:block;
         animation:bje-descend linear both;
-        animation-timeline:--about-track;
-        animation-range:cover 0% cover 100%;
+        animation-timeline:scroll(root block);
       }
       .pixel-sprite{
         animation:bje-turn steps(16,jump-none) both;
-        animation-timeline:--about-track;
-        animation-range:cover 0% cover 100%;
+        animation-timeline:scroll(root block);
       }
     }
   }
   @keyframes bje-descend{
-    0%{transform:translateY(4vh);opacity:0}
-    7%{opacity:1}
-    93%{opacity:1}
-    100%{transform:translateY(84vh);opacity:0}
+    0%{transform:translateY(2vh);opacity:0}
+    4%{opacity:1}
+    96%{opacity:1}
+    100%{transform:translateY(86vh);opacity:0}
   }
   @keyframes bje-turn{to{background-position-x:calc(-15 * var(--fw))}}
 
@@ -619,7 +616,7 @@
   .ps-row{display:grid;grid-template-columns:1fr 20px 1fr;align-items:center;gap:12px}
   .ps-pain{border:1px solid var(--line);background:var(--bg);padding:13px 15px;font-size:13.5px;color:var(--text-dim);line-height:1.55}
   .ps-arrow{text-align:center;color:var(--accent);font-weight:700}
-  .ps-sol{border:1px solid var(--line-strong);background:rgba(52,209,122,.06);padding:13px 15px;font-size:13.5px;font-weight:600;color:var(--text);line-height:1.55}
+  .ps-sol{border:1px solid var(--line-strong);background:rgba(242,89,58,.09);padding:13px 15px;font-size:13.5px;font-weight:600;color:var(--text);line-height:1.55}
   .slide-note{margin-top:20px;padding:14px 16px;background:var(--bg);border:1px solid var(--line);color:var(--text);font-size:14px;font-weight:600;text-align:center;line-height:1.55}
   @media (max-width:640px){ .ps-row{grid-template-columns:1fr;gap:6px} .ps-arrow{transform:rotate(90deg)} }
 
@@ -743,6 +740,7 @@
 </header>
 
 <main id="top">
+  <div class="pixel-runner" aria-hidden="true"><span class="pixel-sprite"></span></div>
 
   <!-- HERO -->
   <section class="hero">
@@ -780,7 +778,6 @@
 
   <!-- ABOUT -->
   <section class="block" id="about">
-    <div class="pixel-runner" aria-hidden="true"><span class="pixel-sprite"></span></div>
     <div class="wrap">
       <div class="sec-head" data-reveal>
         <span class="idx">01</span>

@@ -264,6 +264,27 @@
     .about-grid{grid-template-columns:1fr;gap:40px}
   }
 
+  /* ---------- about: pixel viewer ---------- */
+  .pixel-viewer{margin-top:38px;display:inline-flex;flex-direction:column;gap:10px;align-items:flex-start}
+  .pixel-viewer .case{border:1px solid var(--line);background:var(--bg-2);padding:12px;line-height:0}
+  .pixel-sprite{
+    --fw:100px;
+    width:var(--fw);height:179px;
+    background:url("assets/sprite-bje.png") 0 0 / auto 100% no-repeat;
+    image-rendering:pixelated;
+  }
+  .pixel-viewer figcaption{font-family:var(--mono);font-size:11px;color:var(--text-faint);letter-spacing:.02em}
+  @supports (animation-timeline: view()){
+    @media (prefers-reduced-motion: no-preference){
+      .pixel-sprite{
+        animation:bje-turn steps(16,jump-none) both;
+        animation-timeline:view();
+        animation-range:cover 12% cover 88%;
+      }
+    }
+  }
+  @keyframes bje-turn{to{background-position-x:calc(-15 * var(--fw))}}
+
   /* ---------- work ---------- */
   .work-row{
     display:grid;
@@ -751,6 +772,10 @@
             운영팀의 반복 업무를 없애는 일을 해왔습니다. 무엇을 만들지 정하는 일과
             어떻게 만들지 아는 일 사이의 거리를 좁히는 것이 제 강점입니다.
           </p>
+          <figure class="pixel-viewer">
+            <div class="case"><div class="pixel-sprite" role="img" aria-label="픽셀 아트로 그린 배정은 캐릭터"></div></div>
+            <figcaption>스크롤하면 한 바퀴 도는 픽셀 배정은</figcaption>
+          </figure>
         </div>
         <div class="stat-strip" data-reveal style="--i:1">
           <div class="s"><div class="n">4년+</div><div class="l">개발 경력</div></div>

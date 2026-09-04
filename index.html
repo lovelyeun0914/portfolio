@@ -1360,6 +1360,23 @@
     }
   ];
 
+  // preload every slide image during idle time so the modal doesn't fetch on open
+  (function(){
+    var urls = [];
+    AWARDS.forEach(function(a){
+      a.slides.forEach(function(s){
+        (s.screens || []).forEach(function(sc){ urls.push(sc.img); });
+        if(s.example){
+          urls.push.apply(urls, s.example.inputs || []);
+          if(s.example.output) urls.push(s.example.output);
+        }
+      });
+    });
+    var preload = function(){ urls.forEach(function(u){ new Image().src = u; }); };
+    if('requestIdleCallback' in window) requestIdleCallback(preload, { timeout:3000 });
+    else window.addEventListener('load', function(){ setTimeout(preload, 300); });
+  })();
+
   function esc(s){ return String(s).replace(/[&<>"]/g, function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]; }); }
 
   var modal = document.getElementById('awardModal');

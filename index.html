@@ -210,6 +210,45 @@
   }
   .work-panel ol.trace b{color:var(--text)}
 
+
+  /* ---------- project visuals ---------- */
+  .viz{margin-top:18px;background:var(--bg-3);border-radius:12px;padding:16px;display:flex;flex-direction:column;gap:14px}
+  .flow-row{display:grid;grid-template-columns:56px 1fr;gap:10px;align-items:start}
+  .flow-tag{font-size:11.5px;font-weight:800;letter-spacing:.02em;padding:4px 0;text-align:center;border-radius:6px}
+  .flow-row.before .flow-tag{background:#dfe1e4;color:#555}
+  .flow-row.after .flow-tag{background:var(--accent);color:var(--accent-ink)}
+  .chips{display:flex;flex-wrap:wrap;align-items:center;gap:6px 4px}
+  .chip{font-size:12.5px;line-height:1.4;padding:6px 10px;border-radius:8px;background:#fff;color:var(--text)}
+  .flow-row.before .chip{color:#6b7078;background:#f0f1f2;border:1px dashed #c9ccd0}
+  .flow-row.after .chip{border:1px solid rgba(251,209,68,.9);box-shadow:0 1px 0 rgba(0,0,0,.03)}
+  .chip b{font-weight:800}
+  .arr{color:var(--text-faint);font-size:13px;padding:0 2px}
+  .flow-row.after .arr{color:#c99a00}
+  .flow-row .chip.bad{color:#b4412b;border:1px solid #e7b3a6;background:#fbefeb}
+  .fan{display:flex;flex-direction:column;gap:4px}
+  .viz-div{height:1px;background:var(--line)}
+  .metrics{display:flex;flex-direction:column;gap:10px}
+  .metric-h{font-size:12.5px;font-weight:700;color:var(--text);margin-bottom:5px}
+  .bar{display:grid;grid-template-columns:44px 1fr 66px;align-items:center;gap:8px;font-size:12px;color:var(--text-dim)}
+  .bar + .bar{margin-top:4px}
+  .bar .track{height:10px;background:#e3e5e8;border-radius:5px;overflow:hidden}
+  .bar .fill{height:100%;border-radius:0 4px 4px 0;background:#b9bdc3}
+  .bar.after .fill{background:var(--accent)}
+  .bar .v{font-weight:700;color:var(--text);text-align:right;font-variant-numeric:tabular-nums}
+  .viz-note{font-size:11.5px;color:var(--text-faint)}
+  .stat-line{display:flex;align-items:baseline;justify-content:space-between;gap:12px;font-size:13px;font-weight:700}
+  .stat-line b{font-size:26px;font-weight:800;letter-spacing:-.02em;background:linear-gradient(transparent 60%, rgba(251,209,68,.7) 60%)}
+  .radar{display:grid;grid-template-columns:200px 1fr;gap:16px;align-items:center}
+  .radar svg{width:100%;height:auto;display:block}
+  .legend{display:flex;flex-direction:column;gap:8px;font-size:12.5px;color:var(--text-dim)}
+  .legend span{display:inline-flex;align-items:center;gap:8px}
+  .legend i{width:12px;height:12px;border-radius:50%;flex:none}
+  @media (max-width:520px){
+    .flow-row{grid-template-columns:1fr;gap:6px}
+    .flow-tag{justify-self:start;padding:3px 10px}
+    .radar{grid-template-columns:1fr}
+    .radar svg{max-width:220px;margin:0 auto}
+  }
   /* ---------- awards (image cards) ---------- */
   .awards-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
   .award{cursor:pointer;display:flex;flex-direction:column;border-radius:12px;transition:transform .2s}
@@ -557,6 +596,7 @@
           <div class="tags">
             <span>CRON 배치</span><span>연체·지연이자 계산</span><span>보증금 정산</span><span>MySQL CTE</span><span>AWS EC2</span>
           </div>
+          <div class="viz" aria-label="정산 자동화 전후 흐름과 성과"><div class="flow-row before"><span class="flow-tag">기존</span><div class="chips"><span class="chip">운영팀이 매일 아침</span><span class="arr" aria-hidden="true">→</span><span class="chip">입금 내역 ↔ 엑셀 수기 대조</span><span class="arr" aria-hidden="true">→</span><span class="chip">담당자마다 다른 산식</span></div></div><div class="flow-row after"><span class="flow-tag">개선</span><div class="chips"><span class="chip"><b>매일 자정</b> CRON</span><span class="arr" aria-hidden="true">→</span><span class="chip">계약·납부 데이터 조회</span><span class="arr" aria-hidden="true">→</span><span class="chip">연체·지연이자·반환금 계산</span><span class="arr" aria-hidden="true">→</span><span class="chip">대시보드 반영</span></div></div><div class="viz-div"></div><div class="metrics"><div><div class="metric-h">정산 소요 시간</div><div class="bar before"><span>기존</span><div class="track"><div class="fill" style="width:100%"></div></div><span class="v">30분</span></div><div class="bar after"><span>개선</span><div class="track"><div class="fill" style="width:10%"></div></div><span class="v">3분</span></div></div><div><div class="metric-h">수작업 비중</div><div class="bar before"><span>기존</span><div class="track"><div class="fill" style="width:100%"></div></div><span class="v">100%</span></div><div class="bar after"><span>개선</span><div class="track"><div class="fill" style="width:10%"></div></div><span class="v">10% 미만</span></div></div></div></div>
         </div>
         <details class="work-panel">
           <summary>진행 과정 보기</summary>
@@ -627,6 +667,7 @@
           <div class="tags">
             <span>재계약</span><span>중도퇴실 자동 정산</span><span>계약 이력 UI</span><span>데이터 동기화</span>
           </div>
+          <div class="viz" aria-label="계약 변경 시 데이터 동기화 전후"><div class="flow-row before"><span class="flow-tag">기존</span><div class="chips"><span class="chip">재계약 · 중도퇴실</span><span class="arr" aria-hidden="true">→</span><span class="chip">납부·보증금·정산을 각각 수정</span><span class="arr" aria-hidden="true">→</span><span class="chip bad">처리 누락 발생</span></div></div><div class="flow-row after"><span class="flow-tag">개선</span><div class="chips"><span class="chip">재계약 · 중도퇴실</span><span class="arr" aria-hidden="true">→</span><span class="fan"><span class="chip">납부내역</span><span class="chip">보증금</span><span class="chip">정산 정보</span></span><span class="arr" aria-hidden="true">→</span><span class="chip"><b>즉시 함께 갱신</b></span></div></div><div class="viz-div"></div><div class="stat-line"><span>재계약 처리 누락</span><b>0건</b></div></div>
         </div>
         <details class="work-panel">
           <summary>진행 과정 보기</summary>
@@ -659,6 +700,7 @@
           <div class="work-title">호스트 페이지 고도화 · 이미지 라이브러리와 지하철 연동</div>
           <div class="work-role">우주프로퍼티매니지먼트 · 프론트·백엔드 구현 · Dropzone.js, Cropper.js, Kakao Local API, AWS S3</div>
           <div class="work-result">운영팀 개입 <span>70% 이상 감소</span>, 이미지 압축을 프론트로 이전해 <span>서버 부하 개선</span></div>
+          <div class="viz" aria-label="호스트 이미지 관리 전후 흐름과 성과"><div class="flow-row before"><span class="flow-tag">기존</span><div class="chips"><span class="chip">호스트</span><span class="arr" aria-hidden="true">→</span><span class="chip">운영팀에 이미지 전달</span><span class="arr" aria-hidden="true">→</span><span class="chip">운영팀이 대신 편집·등록</span><span class="arr" aria-hidden="true">→</span><span class="chip">매물 페이지</span></div></div><div class="flow-row after"><span class="flow-tag">개선</span><div class="chips"><span class="chip">호스트</span><span class="arr" aria-hidden="true">→</span><span class="chip"><b>직접</b> 크롭·정렬 (프론트 압축)</span><span class="arr" aria-hidden="true">→</span><span class="chip">S3 저장</span><span class="arr" aria-hidden="true">→</span><span class="chip">매물 페이지 + 500m 지하철역 자동 표시</span></div></div><div class="viz-div"></div><div class="metrics"><div><div class="metric-h">운영팀 수작업 개입</div><div class="bar before"><span>기존</span><div class="track"><div class="fill" style="width:100%"></div></div><span class="v">100</span></div><div class="bar after"><span>개선</span><div class="track"><div class="fill" style="width:30%"></div></div><span class="v">30 이하</span></div><div class="viz-note">기존을 100으로 둔 상대값 · 70% 이상 감소</div></div></div></div>
         </div>
         <details class="work-panel">
           <summary>진행 과정 보기</summary>
@@ -703,6 +745,26 @@
           <div class="tags">
             <span>위치 기반 매칭</span><span>자동 배차</span><span>이노페이 결제</span><span>알림톡</span><span>Android 알림 채널</span>
           </div>
+          <div class="viz" aria-label="위치 기반 자동 배차 개념도와 흐름"><div class="radar"><svg viewBox="0 0 200 200" role="img" aria-label="접수 위치 반경 안의 기사만 골라 배차를 요청하는 개념도">
+  <rect x="0" y="0" width="200" height="200" rx="14" fill="#fff"/>
+  <g stroke="#eceef0" stroke-width="1">
+    <path d="M0 50H200M0 100H200M0 150H200M50 0V200M100 0V200M150 0V200"/>
+  </g>
+  <circle cx="100" cy="100" r="62" fill="rgba(251,209,68,.16)" stroke="#e0b52c" stroke-width="1.5" stroke-dasharray="5 4"/>
+  <g fill="#c4c8cd" stroke="#fff" stroke-width="2">
+    <circle cx="22" cy="28" r="6"/><circle cx="178" cy="40" r="6"/><circle cx="182" cy="168" r="6"/>
+    <circle cx="24" cy="176" r="6"/><circle cx="168" cy="110" r="6"/><circle cx="34" cy="96" r="6"/>
+  </g>
+  <g stroke="#c99a00" stroke-width="1.5" stroke-dasharray="3 3">
+    <path d="M100 100L72 74M100 100L132 80M100 100L118 136"/>
+  </g>
+  <g fill="#FBD144" stroke="#171F26" stroke-width="1.5">
+    <circle cx="72" cy="74" r="7"/><circle cx="132" cy="80" r="7"/><circle cx="118" cy="136" r="7"/>
+  </g>
+  <path d="M100 86c-6 0-10 4.5-10 10 0 7.5 10 17 10 17s10-9.5 10-17c0-5.5-4-10-10-10Z" fill="#171F26"/>
+  <circle cx="100" cy="96" r="3.5" fill="#fff"/>
+  <text x="138" y="190" font-size="10" fill="#868b93" font-family="Pretendard, sans-serif">반경 10km</text>
+</svg><div class="legend"><span><i style="background:#171F26"></i>고객 접수 위치</span><span><i style="background:#FBD144;border:1.5px solid #171F26"></i>반경 안 기사 → 자동 배차 요청</span><span><i style="background:#c4c8cd"></i>반경 밖 기사 → 조회하지 않음</span><span class="viz-note" style="display:block">DB에서 위도·경도로 반경 안 기사만 바로 추림 (개념도)</span></div></div><div class="viz-div"></div><div class="flow-row before"><span class="flow-tag">기존</span><div class="chips"><span class="chip">고객 접수</span><span class="arr" aria-hidden="true">→</span><span class="chip">기사 전원 불러와 반복문으로 거리 계산</span><span class="arr" aria-hidden="true">→</span><span class="chip">관리자가 직접 배정</span></div></div><div class="flow-row after"><span class="flow-tag">개선</span><div class="chips"><span class="chip">고객 접수</span><span class="arr" aria-hidden="true">→</span><span class="chip">DB 반경 쿼리</span><span class="arr" aria-hidden="true">→</span><span class="chip">인근 기사 자동 배차 요청</span><span class="arr" aria-hidden="true">→</span><span class="chip">푸시·알림톡</span><span class="arr" aria-hidden="true">→</span><span class="chip">이노페이 결제</span></div></div></div>
         </div>
         <details class="work-panel">
           <summary>진행 과정 보기</summary>
